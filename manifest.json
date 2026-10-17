@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Coding Contest Tracker",
   "version": "1.0.0",
-  "description": "Track upcoming and live coding contests from Codeforces, LeetCode, CodeChef, AtCoder and more. Instant calendar sync and smart reminders.",
+  "description": "Track live & upcoming contests from LeetCode, Codeforces, CodeChef & AtCoder with calendar sync and desktop reminders.",
   "permissions": [
     "alarms",
     "notifications",
