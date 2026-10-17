@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Contest Tracker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo-box">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">Contest Tracker</h1>
+        <div id="sync-status" class="sync-status">Checking updates...</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="refresh-btn" class="icon-btn" title="Refresh contests" aria-label="Refresh">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+          <path d="M21 21v-5h-5"></path>
+        </svg>
+      </button>
+      <button id="settings-btn" class="icon-btn" title="Settings & Integrations" aria-label="Settings">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search Input -->
+  <div class="search-container">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search contests, platforms..." autocomplete="off">
+      <button id="search-clear-btn" class="search-clear-btn hidden" title="Clear search">✕</button>
+    </div>
+  </div>
+
+  <!-- Status Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="upcoming">
+      Upcoming <span id="count-upcoming" class="tab-badge">0</span>
+    </button>
+    <button class="tab-btn" data-tab="live">
+      Live Now <span id="count-live" class="tab-badge live-badge">0</span>
+    </button>
+    <button class="tab-btn" data-tab="starred">
+      Starred <span id="count-starred" class="tab-badge">0</span>
+    </button>
+  </div>
+
+  <!-- Platform Filter Chips -->
+  <div class="platform-chips-scroll">
+    <div class="platform-chips" id="platform-chips">
+      <button class="chip active" data-platform="all">All</button>
+      <button class="chip" data-platform="Codeforces">Codeforces</button>
+      <button class="chip" data-platform="LeetCode">LeetCode</button>
+      <button class="chip" data-platform="CodeChef">CodeChef</button>
+      <button class="chip" data-platform="AtCoder">AtCoder</button>
+      <button class="chip" data-platform="Other">Others</button>
+    </div>
+  </div>
+
+  <!-- Main Contest List -->
+  <main id="contest-list" class="contest-list">
+    <!-- Populated dynamically via popup.js -->
+  </main>
+
+  <!-- Settings Overlay Modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Settings & Integrations</h2>
+        <button id="close-settings-btn" class="close-btn" title="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Section: Notifications -->
+        <div class="setting-section">
+          <h3>Reminders & Notifications</h3>
+          <div class="setting-row">
+            <label for="reminder-select">Notify me before contest:</label>
+            <select id="reminder-select" class="custom-select">
+              <option value="10">10 minutes before</option>
+              <option value="15">15 minutes before</option>
+              <option value="30">30 minutes before</option>
+              <option value="60">1 hour before</option>
+              <option value="120">2 hours before</option>
+            </select>
+          </div>
+          <button id="test-notif-btn" class="secondary-btn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            Send Test Notification
+          </button>
+        </div>
+
+        <!-- Section: CLIST Integration -->
+        <div class="setting-section">
+          <div class="section-title-with-badge">
+            <h3>CLIST.BY Integration</h3>
+            <span class="info-badge">Optional (100+ platforms)</span>
+          </div>
+          <p class="setting-hint">
+            Unlocks HackerRank, TopCoder, Kaggle, Google, Meta Hacker Cup & more. Get free credentials from
+            <a href="https://clist.by/api/v4/doc/" target="_blank" class="external-link">clist.by/api/v4/doc/</a>.
+          </p>
+          <div class="input-group">
+            <label for="clist-user-input">CLIST Username</label>
+            <input type="text" id="clist-user-input" placeholder="e.g. your_clist_username">
+          </div>
+          <div class="input-group">
+            <label for="clist-key-input">CLIST API Key</label>
+            <input type="password" id="clist-key-input" placeholder="e.g. 5e9b8f2c3d1a...">
+          </div>
+          <div class="button-row">
+            <button id="save-clist-btn" class="primary-btn">Save CLIST Credentials</button>
+            <button id="test-clist-btn" class="secondary-btn">Test Connection</button>
+          </div>
+          <div id="clist-status-msg" class="status-msg hidden"></div>
+        </div>
+
+        <!-- Section: Google Calendar Mode -->
+        <div class="setting-section">
+          <h3>Google Calendar Integration</h3>
+          <p class="setting-hint">
+            Contests can be added to your Google Calendar in 1-click without any complex OAuth setup.
+          </p>
+          <div class="integration-status-pill">
+            <svg class="btn-icon-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>1-Click Google Calendar Web Integration: Active & Ready</span>
+          </div>
+        </div>
+
+        <!-- Section: About / Version -->
+        <div class="setting-section about-section">
+          <div><strong>Coding Contest Tracker</strong> v1.0.0</div>
+          <div class="text-muted">Built for Competitive Programmers & Interview Aspirants</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Microsoft Edge / Chrome Store Publishing Assets
+store-assets/
+CHROMEWEBSTORE.md
+coding-contest-tracker-edge.zip
+INTEGRATION_AND_TESTING_GUIDE.md
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

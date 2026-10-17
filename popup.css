@@ -1,0 +1,913 @@
+/* ==========================================================================
+   Coding Contest Tracker — Nothing Phone / Nothing OS Minimalist Design
+   Aesthetic: Monochromatic AMOLED True Black, Technical Crisp White, 
+              NDot & Monospace Accents, Signature Red Live Indicator.
+   ========================================================================== */
+
+:root {
+  --bg-primary: #000000;        /* Pure AMOLED True Black */
+  --bg-card: #0d0d0d;           /* Matte Charcoal Card Surface */
+  --bg-surface: #141414;        /* Elevated Surface */
+  --bg-hover: #1c1c1c;          /* Hover State */
+
+  --border-dim: #202020;        /* Subtle divider */
+  --border-focus: #383838;      /* Active outline */
+  --border-strong: #ffffff;     /* High contrast white border */
+
+  --text-primary: #ffffff;      /* Stark High-Contrast White */
+  --text-secondary: #8e8e8e;    /* Cool Minimalist Gray */
+  --text-muted: #555555;        /* Dim Technical Gray */
+
+  --nothing-red: #d71920;       /* Iconic Nothing Phone Red Accent */
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Space Mono', Menlo, Monaco, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 440px;
+  height: 590px;
+  max-height: 590px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. Header Bar (Nothing Glyph Minimalist Style)
+   ========================================================================== */
+.app-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 12px 18px;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.logo-icon {
+  width: 17px;
+  height: 17px;
+  color: #000000;
+}
+
+.brand-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.sync-status {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-focus);
+}
+
+.icon-btn .icon {
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.75;
+}
+
+.spin-animation {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   2. Search Input (Pill Capsule)
+   ========================================================================== */
+.search-container {
+  flex-shrink: 0;
+  padding: 12px 18px 8px 18px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+  stroke-width: 2;
+}
+
+.search-box input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: 24px;
+  padding: 8px 36px 8px 38px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--border-strong);
+  background: #000000;
+}
+
+.search-box input::placeholder {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 50%;
+}
+
+.search-clear-btn:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   3. Segmented Navigation Tabs (Nothing OS Switch Style)
+   ========================================================================== */
+.nav-tabs {
+  flex-shrink: 0;
+  display: flex;
+  margin: 4px 18px 10px 18px;
+  padding: 3px;
+  background: #080808;
+  border: 1px solid var(--border-dim);
+  border-radius: 24px;
+  gap: 3px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 7px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+.tab-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 12px;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+
+.tab-btn.active .tab-badge {
+  background: #000000;
+  color: #ffffff;
+}
+
+.tab-badge.live-badge {
+  background: rgba(215, 25, 32, 0.15);
+  color: var(--nothing-red);
+}
+
+.tab-btn.active .tab-badge.live-badge {
+  background: var(--nothing-red);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   4. Platform Filter Chips (Monochrome Outline Pills)
+   ========================================================================== */
+.platform-chips-scroll {
+  flex-shrink: 0;
+  padding: 0 18px 12px 18px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.platform-chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.platform-chips {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.chip {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.chip:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-focus);
+}
+
+.chip.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   5. Contest List (Scrollable Matte Cards)
+   ========================================================================== */
+.contest-list {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 18px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contest-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.12s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.contest-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-focus);
+}
+
+/* Distinctive Nothing Phone Red accent for live cards */
+.contest-card.live-card {
+  border-color: #2e1215;
+  background: linear-gradient(180deg, #110808 0%, #0d0d0d 100%);
+  border-left: 2px solid var(--nothing-red);
+}
+
+/* Card Top: Platform Monospace Badge + Status Indicator + Star */
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.platform-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--bg-surface);
+  color: #ffffff;
+  border: 1px solid #282828;
+}
+
+.card-top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-indicator {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+}
+
+.status-indicator.live {
+  color: var(--nothing-red);
+  font-weight: 700;
+}
+
+.status-indicator.upcoming {
+  color: var(--text-secondary);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--nothing-red);
+  animation: pulse-red 1.4s infinite;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(215, 25, 32, 0.8); }
+  70% { box-shadow: 0 0 0 5px rgba(215, 25, 32, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(215, 25, 32, 0); }
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.star-btn:hover {
+  color: #ffffff;
+  transform: scale(1.15);
+}
+
+.star-btn.starred {
+  color: #ffffff;
+}
+
+.star-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Card Body */
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.15s ease;
+  letter-spacing: -0.2px;
+}
+
+.card-title:hover {
+  color: var(--text-secondary);
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--text-muted);
+}
+
+/* Card Actions — Nothing Capsule Buttons */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-dim);
+}
+
+.action-btn {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+/* Primary Button: Pure White Pill with Black Typography */
+.action-btn.gcal-btn {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.action-btn.gcal-btn:hover {
+  background: #e2e2e2;
+  border-color: #e2e2e2;
+}
+
+/* Secondary Button: Stealth Dark Pill */
+.action-btn.visit-btn {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-dim);
+}
+
+.action-btn.visit-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-focus);
+}
+
+.action-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   6. Empty & Loading States
+   ========================================================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  stroke-width: 1.5;
+}
+
+.empty-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.empty-text {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  max-width: 260px;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   7. Settings Modal (Minimalist Dark Glass / Obsidian)
+   ========================================================================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-card {
+  width: 100%;
+  max-height: 520px;
+  background: #0d0d0d;
+  border: 1px solid var(--border-focus);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.modal-header h2 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+}
+
+.close-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.close-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.modal-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.setting-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.setting-section h3 {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+
+.section-title-with-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info-badge {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 2px 8px;
+  background: var(--bg-surface);
+  color: #ffffff;
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+}
+
+.setting-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.external-link {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.setting-row label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.custom-select {
+  background: #000000;
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  outline: none;
+}
+
+.custom-select:focus {
+  border-color: var(--border-strong);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-secondary);
+}
+
+.input-group input {
+  background: #000000;
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: var(--border-strong);
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.primary-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.primary-btn:hover {
+  background: #e2e2e2;
+}
+
+.secondary-btn {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.secondary-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-focus);
+}
+
+.btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-icon-green {
+  width: 15px;
+  height: 15px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.status-msg {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 8px 12px;
+  border-radius: 8px;
+  line-height: 1.35;
+}
+
+.status-msg.success {
+  background: #141414;
+  color: #ffffff;
+  border: 1px solid #333333;
+}
+
+.status-msg.error {
+  background: #1a0808;
+  color: var(--nothing-red);
+  border: 1px solid #3a1515;
+}
+
+.status-msg.hidden {
+  display: none;
+}
+
+.integration-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.about-section {
+  border-bottom: none;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-align: center;
+  padding-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   8. Toast Notifications (High-Contrast White Capsule)
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #000000;
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  z-index: 200;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.toast.hidden {
+  opacity: 0;
+  transform: translate(-50%, 10px);
+}
+
+/* ==========================================================================
+   9. Custom Sleek Scrollbar
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-focus);
+}
